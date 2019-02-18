@@ -1,0 +1,51 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <!-- <button onClick="sendMsg()">Hit Me</button> -->
+
+  <p id="alpha"></p>
+  <p id="beta"></p>
+  <p id="gamma"></p>
+  <p id="data"></p>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+  <script src="./dist/gyronorm.complete.min.js"></script>
+  <script>
+    // Ip address should be server address
+    const socket = io('http://192.168.1.249:8080');
+
+    var gn = new GyroNorm();
+
+    gn.init().then(function () {
+      gn.start(function (data) {
+        document.getElementById("alpha").innerHTML = data.do.alpha;
+        document.getElementById("beta").innerHTML = data.do.beta;
+        document.getElementById("gamma").innerHTML = data.do.gamma;
+        
+        var data = {
+          alpha : data.do.alpha,
+          beta : data.do.beta,
+          gamma : data.do.gamma
+        };
+        
+        socket.emit("message", data);
+
+      });
+    }).catch(function (e) {
+      // Catch if the DeviceOrientation or DeviceMotion is not supported by the browser or device
+    });
+
+  </script>
+</body>
+
+</html>
