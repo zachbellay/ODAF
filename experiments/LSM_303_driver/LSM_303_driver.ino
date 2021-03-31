@@ -36,5 +36,6 @@ void loop()
     heading += 360;
 
   Serial.println(heading);
+  delay(2);
 
 }
